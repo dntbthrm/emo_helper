@@ -1,28 +1,28 @@
-import vosk as v
+import whisper
+import torch
 import os
-import wave
-import json
+from pydub import AudioSegment
 
-path_to_vosk = "/home/boss/diplom/vosk-model-ru-0.22"
+torch.cuda.empty_cache()
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+model = whisper.load_model("small", device=DEVICE)  # Можно выбрать "medium" для скорости
 
-def transcription(audio_file):
-    if not os.path.exists(path_to_vosk):
-        raise FileNotFoundError("Модель не найдена")
-    v_model = v.Model(path_to_vosk)
+class AudioProccessor:
+    @staticmethod
+    def transcription(audio_path):
+        audio = AudioSegment.from_wav(audio_path)
 
-    with wave.open(audio_file, "rb") as wf:
-        rec = v.KaldiRecognizer(v_model, wf.getframerate())
+        # Если аудио длинное, разбиваем на куски по 30 сек
+        chunks = [audio[i : i + 30 * 1000] for i in range(0, len(audio), 30 * 1000)]
+        full_text = ""
 
-        text = []
-        while True:
-            data = wf.readframes(4000)
-            if len(data) == 0:
-                break
-            if rec.AcceptWaveform(data):
-                result = json.loads(rec.Result())
-                text.append(result.get("text", ""))
+        for i, chunk in enumerate(chunks):
+            chunk_path = f"temp_chunk_{i}.wav"
+            chunk.export(chunk_path, format="wav")
 
-        final_result = json.loads(rec.FinalResult())
-        text.append(final_result.get("text", ""))
+            result = model.transcribe(chunk_path)
+            full_text += result["text"] + " "
 
-    return " ".join(text).strip() or "Не удалось распознать речь."
+            os.remove(chunk_path)
+
+        return full_text.strip()

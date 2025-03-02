@@ -15,6 +15,7 @@ bot = telebot.TeleBot(config.tg_token)
 task_queue = queue.Queue()
 executor = ThreadPoolExecutor(max_workers=3)
 
+
 @bot.message_handler(commands=['start', 'help'])
 def send_info(message):
     user = message.from_user
@@ -51,7 +52,7 @@ def process_audio(message, file_id):
 
         convert_to_wav(ogg_path, wav_path)
 
-        answer = AudioProccessor.transcription(wav_path)
+        answer = AudioProccessor.AudioProccessor.transcription(wav_path)
 
         bot.send_message(message.chat.id, f"🗣 {answer}", parse_mode='Markdown')
 
