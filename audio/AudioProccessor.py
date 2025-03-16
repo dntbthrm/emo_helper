@@ -2,6 +2,13 @@ import whisper
 import torch
 import os
 from pydub import AudioSegment
+import librosa
+import numpy as np
+import pandas as pd
+import joblib
+
+from models.audio_model.feature_extractor import extract_features
+
 
 class AudioProccessor:
     TMP_DIR = "audio/tmp"
@@ -36,6 +43,42 @@ class AudioProccessor:
 
         return full_text.strip()
 
+
+
+    @staticmethod
+    def extract_features(audio_path):
+        y, sr = librosa.load(audio_path, sr=22050)
+        # акустические признаки
+        mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+        chroma = librosa.feature.chroma_stft(y=y, sr=sr)
+        spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+        tonnetz = librosa.feature.tonnetz(y=y, sr=sr)
+        zcr = librosa.feature.zero_crossing_rate(y)
+        rms = librosa.feature.rms(y=y)
+
+        features = np.hstack([
+            np.mean(mfccs, axis=1), np.std(mfccs, axis=1),
+            np.mean(chroma, axis=1), np.std(chroma, axis=1),
+            np.mean(spectral_contrast, axis=1), np.std(spectral_contrast, axis=1),
+            np.mean(tonnetz, axis=1), np.std(tonnetz, axis=1),
+            np.mean(zcr), np.std(zcr),
+            np.mean(rms), np.std(rms)
+        ])
+        feature_columns = [f"mfcc_{i}" for i in range(13)] + \
+                  [f"mfcc_std_{i}" for i in range(13)] + \
+                  [f"chroma_{i}" for i in range(12)] + \
+                  [f"chroma_std_{i}" for i in range(12)] + \
+                  [f"spectral_contrast_{i}" for i in range(7)] + \
+                  [f"spectral_contrast_std_{i}" for i in range(7)] + \
+                  [f"tonnetz_{i}" for i in range(6)] + \
+                  [f"tonnetz_std_{i}" for i in range(6)] + \
+                  ["zero_crossing_rate", "zero_crossing_rate_std", "rms", "rms_std"]
+        df = pd.DataFrame([features], columns=feature_columns)
+        return df
+
     @staticmethod
     def emo_detection(audio_path):
-        return 0
+        model = joblib.load('models/audio_model/audio_model.pkl')
+        df = AudioProccessor.extract_features(audio_path)
+        prediction = model.predict(df)[0]
+        return prediction

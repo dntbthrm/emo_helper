@@ -50,8 +50,10 @@ def process_audio(message, file_id):
         u.convert_to_wav(ogg_path, wav_path)
 
         answer = AudioProccessor.transcription(wav_path, unique_id)
+        audio_emotion = AudioProccessor.emo_detection(wav_path)
+        full_answer = answer + audio_emotion
 
-        bot.send_message(message.chat.id, f"🗣 {answer}", parse_mode='Markdown')
+        bot.send_message(message.chat.id, f"🗣 {full_answer}", parse_mode='Markdown')
 
     except Exception as e:
         bot.send_message(message.chat.id, f"⚠ Ошибка: {str(e)}")
