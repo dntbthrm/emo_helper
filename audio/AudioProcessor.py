@@ -10,7 +10,7 @@ import joblib
 from models.audio_model.feature_extractor import extract_features
 
 
-class AudioProccessor:
+class AudioProcessor:
     TMP_DIR = "audio/tmp"
 
     @staticmethod
@@ -33,7 +33,7 @@ class AudioProccessor:
         full_text = ""
 
         for i, chunk in enumerate(chunks):
-            chunk_path = os.path.join(AudioProccessor.TMP_DIR, f"temp_chunk_{i}_{uid}.wav")
+            chunk_path = os.path.join(AudioProcessor.TMP_DIR, f"temp_chunk_{i}_{uid}.wav")
             chunk.export(chunk_path, format="wav")
 
             result = model.transcribe(chunk_path)
@@ -79,6 +79,6 @@ class AudioProccessor:
     @staticmethod
     def emo_detection(audio_path):
         model = joblib.load('models/audio_model/audio_model.pkl')
-        df = AudioProccessor.extract_features(audio_path)
+        df = AudioProcessor.extract_features(audio_path)
         prediction = model.predict(df)[0]
         return prediction

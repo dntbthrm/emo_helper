@@ -9,7 +9,8 @@ import queue
 from concurrent.futures import ThreadPoolExecutor
 
 # кастомные функции
-from audio.AudioProccessor import AudioProccessor
+from audio.AudioProcessor import AudioProcessor
+from text.TextProcessor import TextProcessor
 import config
 import utils as u
 
@@ -34,7 +35,7 @@ def send_info(message):
 
 def process_audio(message, file_id):
     try:
-        AudioProccessor.make_tmp_dir("audio/tmp")
+        AudioProcessor.make_tmp_dir("audio/tmp")
 
         file_info = bot.get_file(file_id)
         unique_id = str(uuid.uuid4())
@@ -49,9 +50,10 @@ def process_audio(message, file_id):
 
         u.convert_to_wav(ogg_path, wav_path)
 
-        answer = AudioProccessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProccessor.emo_detection(wav_path)
-        full_answer = answer + audio_emotion
+        answer = AudioProcessor.transcription(wav_path, unique_id)
+        audio_emotion = AudioProcessor.emo_detection(wav_path)
+        text_emotion = TextProcessor.emo_detection(answer)
+        full_answer = answer + audio_emotion + " OOOO " + str(text_emotion)
 
         bot.send_message(message.chat.id, f"🗣 {full_answer}", parse_mode='Markdown')
 
@@ -70,6 +72,10 @@ def handle_voice(message):
     task_queue.put((message, file_id))
     bot.send_message(message.chat.id, "⏳ Голосовое сообщение поставлено в очередь на обработку.")
 
+@bot.message_handler(content_types=['text'])
+def handle_text(message):
+    emotion = TextProcessor.emo_detection(str(message))
+    bot.send_message(message.chat.id, emotion)
 
 def worker():
     while True:
