@@ -70,10 +70,11 @@ def send_info(message):
     user = message.from_user
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(types.KeyboardButton("/start"), types.KeyboardButton("/help"))
+    markup_inline = group_buttons() if message.chat.type != 'private' else private_buttons()
     if message.text == "/start":
-        bot.send_message(message.chat.id, f"Здравствуйте, {user.first_name}. Я Биба", reply_markup=markup)
+        bot.send_message(message.chat.id, f"Здравствуйте, {user.first_name}. Я Биба", reply_markup=markup_inline)
     elif message.text == "/help":
-        bot.send_message(message.chat.id, "Сам себе помоги", reply_markup=markup)
+        bot.send_message(message.chat.id, "Сам себе помоги", reply_markup=markup_inline)
 
 
 
