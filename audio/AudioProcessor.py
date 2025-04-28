@@ -9,6 +9,15 @@ import joblib
 
 from models.audio_model.feature_extractor import extract_features
 
+emotion_codes = {
+    1: "neutral",
+    2: "happy",
+    3: "sad",
+    4: "angry",
+    5: "fearful",
+    6: "disgust",
+    7: "surprised"
+}
 
 class AudioProcessor:
     TMP_DIR = "audio/tmp"
@@ -78,7 +87,8 @@ class AudioProcessor:
 
     @staticmethod
     def emo_detection(audio_path):
-        model = joblib.load('models/audio_model/audio_model.pkl')
+        model = joblib.load('models/audio_model/audio_classifier.pkl')
         df = AudioProcessor.extract_features(audio_path)
         prediction = model.predict(df)[0]
-        return prediction
+        pred_value = emotion_codes.get(prediction)
+        return pred_value

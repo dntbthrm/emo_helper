@@ -29,12 +29,93 @@ emodzi_dict_audio = {
     'neutral': '😐'
 }
 
-def send_reaction(bot_token, chat_id, message_id, emoji):
-    url = f"https://api.telegram.org/bot{bot_token}/sendReaction"
-    data = {
-        'chat_id': chat_id,
-        'message_id': message_id,
-        'reaction': emoji
-    }
-    response = requests.post(url, json=data)
-    return response.json()
+audio_to_text = {
+    'angry': 'anger',
+    'disgust': 'disgust',
+    'fearful': 'fear',
+    'happy': 'joy',
+    'sad': 'sadness',
+    'surprised': 'surprise',
+    'neutral': 'neutral'
+}
+
+audio_russian = {
+    'angry': 'злость',
+    'disgust': 'отвращение',
+    'fearful': 'страх',
+    'happy': 'радость',
+    'sad': 'грусть',
+    'surprised': 'удивление',
+    'neutral': 'нейтральная'
+}
+
+text_russian = {
+    'anger': 'злость',
+    'disgust' : 'отвращение',
+    'fear': 'страх',
+    'joy': 'радость',
+    'sadness': 'грусть',
+    'surprise': 'удивление',
+    'neutral': 'нейтральная'
+}
+
+import sqlite3
+
+def init_db():
+    conn = sqlite3.connect('bot_state.db')
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS bot_activity (
+            chat_id INTEGER PRIMARY KEY,
+            is_active BOOLEAN
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+
+def bot_activate(chat_id):
+    conn = sqlite3.connect('bot_state.db')
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO bot_activity (chat_id, is_active) 
+        VALUES (?, ?)
+        ON CONFLICT(chat_id) 
+        DO UPDATE SET is_active = ?
+    ''', (chat_id, True, True))
+    conn.commit()
+    conn.close()
+
+
+def bot_deactivate(chat_id):
+    conn = sqlite3.connect('bot_state.db')
+    c = conn.cursor()
+
+    c.execute('''
+        INSERT INTO bot_activity (chat_id, is_active) 
+        VALUES (?, ?)
+        ON CONFLICT(chat_id) 
+        DO UPDATE SET is_active = ?
+    ''', (chat_id, False, False))
+    conn.commit()
+    conn.close()
+
+
+def check_bot_state(chat_id):
+    conn = sqlite3.connect('bot_state.db')
+    c = conn.cursor()
+    c.execute('SELECT is_active FROM bot_activity WHERE chat_id = ?', (chat_id,))
+    result = c.fetchone()
+    conn.close()
+    if result is None:
+        return False
+    return result[0] == 1
+
+def define_emotion(audio_emotion, text_emotion, message_text):
+    if audio_emotion == "none":
+        return f"Выявленная в сообщении эмоция – {text_russian.get(text_emotion)}"
+    is_equal = audio_to_text.get(audio_emotion) == text_emotion
+    if is_equal or (text_emotion == "neutral" and audio_emotion != 'neutral'):
+        return f"Выявленная в сообщении эмоция – {audio_russian.get(audio_emotion)}.\nРасшифровка:\n{message_text}"
+    return f"Выявлено расхождение между эмоциями голоса ({audio_russian.get(audio_emotion)}) и текста ({text_russian.get(text_emotion)}).\nРасшифровка:\n{message_text}"
+
