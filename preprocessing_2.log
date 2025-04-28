@@ -1,0 +1,324 @@
+2025-04-28 16:18:23,081 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:18:47,734 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:18:55,902 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:19:02,668 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:19:16,605 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:19:16,734 - WARNING - 5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x13df27b50> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:19:33,377 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:19:33,509 - WARNING - 6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x13f91de10> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:24:41,082 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:25:12,225 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:25:34,882 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:25:48,312 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:26:10,311 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:26:10,432 - WARNING - 5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x157fb63b0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:26:48,437 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:26:48,566 - WARNING - 6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x169425510> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:27:10,620 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:27:32,265 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:28:02,312 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:28:38,429 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:13,761 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:24,717 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:33,409 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:41,017 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:49,365 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:33:49,512 - WARNING - 5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x175211ea0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:34:01,888 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:34:02,016 - WARNING - 6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x1754ec1f0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 16:34:10,422 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:34:27,592 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:34:41,621 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:34:50,937 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:34:57,201 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:35:04,853 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:35:19,842 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:35:19,846 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:35:39,576 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:35:53,910 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:58:17,285 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 16:58:49,955 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:00:25,260 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:01:54,748 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:03:28,303 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:08:29,405 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:09:40,618 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:10:41,175 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:13:24,785 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:13:40,266 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:13:40,694 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:13:40,695 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 85, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:14:22,300 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:15:26,324 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:15:26,709 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:15:26,709 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 85, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:15:44,187 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:15:54,489 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:16:06,833 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:16:21,877 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:16:22,001 - WARNING - 5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x16be32560> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 17:16:55,078 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:16:55,218 - WARNING - 6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x16e4a48b0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-04-28 17:16:55,293 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:16:55,293 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 85, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:17:26,198 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:17:26,415 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:17:26,415 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 85, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:17:58,456 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:17:58,819 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:17:58,819 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:19:10,729 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:19:59,985 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:20:00,418 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:20:00,418 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:20:59,781 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:21:54,366 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:21:54,785 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:21:54,786 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:23:02,905 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:23:03,319 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:23:03,319 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:23:57,140 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:23:57,597 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:23:57,597 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:27:09,831 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:27:10,306 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:27:10,306 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:28:03,632 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:28:03,998 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+2025-04-28 17:28:03,998 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 9233, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "/Users/tatiana/PycharmProjects/emo_helper/main.py", line 86, in handle_text
+    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/__init__.py", line 1486, in set_message_reaction
+    return apihelper.set_message_reaction(
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 361, in set_message_reaction
+    return _make_request(token, method_url, params=payload)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+  File "/Users/tatiana/PycharmProjects/emo_helper/.venv/lib/python3.10/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: REACTION_INVALID
+
+2025-04-28 17:28:28,925 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:37:37,697 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:40:20,821 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-04-28 17:53:20,033 - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.

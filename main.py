@@ -7,7 +7,7 @@ import uuid
 import threading
 import queue
 from concurrent.futures import ThreadPoolExecutor
-
+import aiogram as aio
 # кастомные функции
 from audio.AudioProcessor import AudioProcessor
 from text.TextProcessor import TextProcessor
@@ -32,6 +32,7 @@ def send_info(message):
     elif message.text == "/help":
         bot.send_message(message.chat.id, "Сам себе помоги", reply_markup=markup)
 
+#case_id 0 - private; 1 - group
 
 def process_audio(message, file_id):
     try:
@@ -66,21 +67,62 @@ def process_audio(message, file_id):
                 os.remove(path)
 
 
+def process_audio_group(message, file_id):
+    try:
+        AudioProcessor.make_tmp_dir("audio/tmp")
+
+        file_info = bot.get_file(file_id)
+        unique_id = str(uuid.uuid4())
+        ogg_path = os.path.join("audio/tmp", f"audio_{unique_id}.ogg")
+        wav_path = os.path.join("audio/tmp", f"audio_{unique_id}.wav")
+
+        file = bot.download_file(file_info.file_path)
+        with open(ogg_path, 'wb') as new_file:
+            new_file.write(file)
+        u.convert_to_wav(ogg_path, wav_path)
+        answer = AudioProcessor.transcription(wav_path, unique_id)
+        audio_emotion = AudioProcessor.emo_detection(wav_path)
+        emodzi = u.emodzi_dict_audio.get(audio_emotion)
+        reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
+        bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+
+    except Exception as e:
+        bot.send_message(message.chat.id, f"⚠ Ошибка: {str(e)}")
+
+    finally:
+        for path in [ogg_path, wav_path]:
+            if os.path.exists(path):
+                os.remove(path)
+
+
 @bot.message_handler(content_types=['voice'])
 def handle_voice(message):
+    case_id = 0 if message.chat.type == 'private' else 1
     file_id = message.voice.file_id
-    task_queue.put((message, file_id))
-    bot.send_message(message.chat.id, "⏳ Голосовое сообщение поставлено в очередь на обработку.")
+    task_queue.put((message, file_id, case_id))
+    if case_id == 0:
+        bot.send_message(message.chat.id, "⏳ Голосовое сообщение поставлено в очередь на обработку.")
+
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    emotion = TextProcessor.emo_detection(str(message))
-    bot.send_message(message.chat.id, emotion)
+    print(f"Получено сообщение из чата типа: {message.chat.type} | Текст: {message.text}")
+    if message.chat.type == 'private':
+        emotion = TextProcessor.emo_detection(message.text)
+        bot.send_message(message.chat.id, emotion)
+    else:
+        emotion = TextProcessor.emo_detection(message.text)
+        emodzi = u.emodzi_dict.get(emotion[0])
+        reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
+        bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
 
 def worker():
     while True:
-        message, file_id = task_queue.get()
-        executor.submit(process_audio, message, file_id)
+        message, file_id, case_id = task_queue.get()
+        if case_id == 0:
+            executor.submit(process_audio, message, file_id)
+        else:
+            executor.submit(process_audio_group, message, file_id)
         #process_audio(message, file_id)
         task_queue.task_done()
 
