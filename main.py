@@ -49,10 +49,12 @@ def handle_query(call):
     #user = call.message.from_user
     if call.data == "start":
         bot.answer_callback_query(call.id, text="Инфо")
-        bot.send_message(call.message.chat.id, "Здравствуйте. Я Биба_2")
+        bot.send_message(call.message.chat.id, "Бот EmoAnalyst распознает эмоции в голосовых и текстовых сообщениях.\nБота можно добавить в чат.")
     elif call.data == "help":
         bot.answer_callback_query(call.id, text="Помощь")
-        bot.send_message(call.message.chat.id, "Сам себе помоги... пж")
+        bot.send_message(call.message.chat.id, "Использование Бота:\n1. Отправьте или перешлите сообщение в диалог с ботом\n"
+                                               "2. Для включения Бота в групповом чате вызовите /start и воспользуйтесь появившимися кнопками.\n"
+                                               "Бот принимает только АУДИО и ТЕКСТ!")
     elif call.data == "start_analyze":
         bot.answer_callback_query(call.id, text="Начинается анализ...")
         start_analyze(call.message)
@@ -65,16 +67,19 @@ def remove_keyboard(message):
     markup = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, "Клавиатура удалена", reply_markup=markup)
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(content_types=['photo', 'video', 'video_note'])
+def send_info(message):
+    if message.chat.type == 'private':
+        bot.send_message(message.chat.id, "Бот пока умеет распознавать только аудио и текст\n:(")
+
+@bot.message_handler(commands=['start'])
 def send_info(message):
     user = message.from_user
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(types.KeyboardButton("/start"), types.KeyboardButton("/help"))
+    markup.add(types.KeyboardButton("/start"))
     markup_inline = group_buttons() if message.chat.type != 'private' else private_buttons()
     if message.text == "/start":
-        bot.send_message(message.chat.id, f"Здравствуйте, {user.first_name}. Я Биба", reply_markup=markup_inline)
-    elif message.text == "/help":
-        bot.send_message(message.chat.id, "Сам себе помоги", reply_markup=markup_inline)
+        bot.send_message(message.chat.id, f"Здравствуйте, {user.first_name}. Это бот для распознавания эмоций.", reply_markup=markup_inline)
 
 
 
@@ -120,8 +125,8 @@ def process_audio(message, file_id):
         u.convert_to_wav(ogg_path, wav_path)
 
         answer = AudioProcessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProcessor.emo_detection(wav_path)
-        text_emotion = TextProcessor.emo_detection(answer)
+        audio_emotion = AudioProcessor.emot_detection(wav_path)
+        text_emotion = TextProcessor.emot_detection(answer)
         #full_answer = answer + audio_emotion + " OOOO " + str(text_emotion)
         full_answer = u.define_emotion(audio_emotion, text_emotion[0], answer)
         bot.send_message(message.chat.id, f"🗣 {full_answer}", parse_mode='Markdown')
@@ -149,7 +154,7 @@ def process_audio_group(message, file_id):
             new_file.write(file)
         u.convert_to_wav(ogg_path, wav_path)
         answer = AudioProcessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProcessor.emo_detection(wav_path)
+        audio_emotion = AudioProcessor.emot_detection(wav_path)
         emodzi = u.emodzi_dict_audio.get(audio_emotion)
         reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
         bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
@@ -176,12 +181,12 @@ def handle_voice(message):
 def handle_text(message):
     print(f"Получено сообщение из чата типа: {message.chat.type} | Текст: {message.text}")
     if message.chat.type == 'private':
-        emotion = TextProcessor.emo_detection(message.text)
+        emotion = TextProcessor.emot_detection(message.text)
         answer =  u.define_emotion("none", emotion[0], "none")
         bot.send_message(message.chat.id, answer)
     else:
         if u.check_bot_state(message.chat.id):
-            emotion = TextProcessor.emo_detection(message.text)
+            emotion = TextProcessor.emot_detection(message.text)
             emodzi = u.emodzi_dict.get(emotion[0])
             reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
             bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
