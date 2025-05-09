@@ -7,7 +7,11 @@ import numpy as np
 import pandas as pd
 import joblib
 
+from aniemore.recognizers.voice import VoiceRecognizer
+from aniemore.models import HuggingFaceModel
+from utils import dict_emo
 from models.audio_model.feature_extractor import extract_features
+
 
 emotion_codes = {
     1: "neutral",
@@ -73,6 +77,7 @@ class AudioProcessor:
             np.mean(zcr), np.std(zcr),
             np.mean(rms), np.std(rms)
         ])
+
         feature_columns = [f"mfcc_{i}" for i in range(13)] + \
                   [f"mfcc_std_{i}" for i in range(13)] + \
                   [f"chroma_{i}" for i in range(12)] + \
@@ -83,11 +88,12 @@ class AudioProcessor:
                   [f"tonnetz_std_{i}" for i in range(6)] + \
                   ["zero_crossing_rate", "zero_crossing_rate_std", "rms", "rms_std"]
         df = pd.DataFrame([features], columns=feature_columns)
+        df = df[['mfcc_std_1', 'tonnetz_3', 'rms_std', 'mfcc_2', 'mfcc_std_10', 'chroma_7', 'mfcc_7']]
         return df
 
     @staticmethod
     def emo_detection(audio_path):
-        model = joblib.load('models/audio_model/audio_classifier.pkl')
+        model = joblib.load('models/audio_model/audio_classifier_big.pkl')
         df = AudioProcessor.extract_features(audio_path)
         prediction = model.predict(df)[0]
         pred_value = emotion_codes.get(prediction)

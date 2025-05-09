@@ -59,6 +59,17 @@ text_russian = {
     'neutral': 'нейтральная'
 }
 
+dict_emo = {
+    'anger': 1,
+    'disgust' : 2,
+    'fear': 3,
+    'happiness': 4,
+    'sadness': 5,
+    'enthusiasm': 6,
+    'neutral': 7
+}
+
+
 import sqlite3
 
 def init_db():
