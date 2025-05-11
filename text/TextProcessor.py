@@ -1,12 +1,27 @@
-import numpy as np
-import pickle
+#import numpy as np
+#import pickle
 import tensorflow as tf
 #from tf.keras.models import load_model
-from keras._tf_keras.keras.preprocessing.sequence import pad_sequences
+#from keras._tf_keras.keras.preprocessing.sequence import pad_sequences
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import models.text_model.model_config as mc
+#import models.text_model.model_config as mc
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch
+from utils import clean_text
+
+dict_emotion = {
+    'neutral' : 'neutral',
+    'anger' : 'anger',
+    'enthusiasm' : 'surprise',
+    'fear' : 'fear',
+    'sadness' : 'sadness',
+    'happiness' : 'joy',
+    'disgust' : 'disgust'
+}
+
+basic_dict = {0: 'anger', 1: 'disgust', 2: 'fear', 3: 'joy', 4: 'sadness', 5: 'surprise', 6: 'neutral'}
 
 class TextProcessor:
     @staticmethod
@@ -22,22 +37,18 @@ class TextProcessor:
 
     @staticmethod
     def emo_detection(text):
-        tf.config.set_visible_devices([], 'GPU')
-        processed = TextProcessor.preprocess_text(text)
-        model = tf.keras.models.load_model('models/text_model/emotion_model_small.h5')
-        with open('models/text_model/model_data/tokenizer_small.pkl', 'rb') as f:
-            tokenizer = pickle.load(f)
-        with open('models/text_model/model_data/label_to_index_small.pkl', 'rb') as f:
-            label_to_index = pickle.load(f)
-        sequence = tokenizer.texts_to_sequences([processed])
-        padded = pad_sequences(sequence, maxlen=mc.MAX_SEQUENCE_LENGTH)
-        prediction = model.predict(padded)[0]
-        threshold = 0.5
-        predicted_labels = [label_to_index[i] for i, prob in enumerate(prediction) if prob >= threshold]
-        if not predicted_labels:
-            predicted_labels = [label_to_index[np.argmax(prediction)]]
-
-        return predicted_labels
-
+        cleaned_text = clean_text(text)
+        model_dir = "models/text_model_v2/emotion_bert_model"
+        # model_dir = "saved_rubert_model"
+        model = BertForSequenceClassification.from_pretrained(model_dir)
+        tokenizer = BertTokenizer.from_pretrained(model_dir)
+        model.eval()
+        inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=128)
+        with torch.no_grad():
+            outputs = model(**inputs)
+            logits = outputs.logits
+            predicted_class = torch.argmax(logits, dim=1).item()
+        text_class = basic_dict[predicted_class]
+        return text_class
 
 

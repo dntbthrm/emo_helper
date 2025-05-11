@@ -130,3 +130,24 @@ def define_emotion(audio_emotion, text_emotion, message_text):
         return f"Выявленная в сообщении эмоция – {audio_russian.get(audio_emotion)}.\nРасшифровка:\n{message_text}"
     return f"Выявлено расхождение между эмоциями голоса ({audio_russian.get(audio_emotion)}) и текста ({text_russian.get(text_emotion)}).\nРасшифровка:\n{message_text}"
 
+import re
+def clean_text(text):
+    # - markdown (*, _, ^, >, ` и т.п.)
+    text = re.sub(r'[*_`^>]', '', text)
+
+    # - упоминания типа @username и спецсимволы
+    text = re.sub(r'@\w+', '', text)
+
+    # - ссылки
+    text = re.sub(r'http\S+|www\.\S+', '', text)
+
+    # - всякий мусор вроде "^(комментарий)", "^^", "(что-то в скобках)"
+    text = re.sub(r'\(\s*[^)]*\s*\)', '', text)  # обычные скобки
+    text = re.sub(r'\[\s*[^]]*\s*\]', '', text)  # квадратные скобки
+    text = re.sub(r'\{[^}]*\}', '', text)  # фигурные скобки
+
+    # - повторяющиеся пробелы
+    text = re.sub(r'\s+', ' ', text)
+
+    # - лидирующие/замыкающие пробелы
+    return text.strip()

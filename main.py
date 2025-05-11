@@ -125,10 +125,10 @@ def process_audio(message, file_id):
         u.convert_to_wav(ogg_path, wav_path)
 
         answer = AudioProcessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProcessor.emot_detection(wav_path)
-        text_emotion = TextProcessor.emot_detection(answer)
-        #full_answer = answer + audio_emotion + " OOOO " + str(text_emotion)
-        full_answer = u.define_emotion(audio_emotion, text_emotion[0], answer)
+        audio_emotion = AudioProcessor.emo_detection(wav_path)
+        text_emotion = TextProcessor.emo_detection(answer)
+        full_answer = u.define_emotion(audio_emotion, text_emotion, answer)
+        #full_answer = u.define_emotion(audio_emotion, text_emotion, answer)
         bot.send_message(message.chat.id, f"🗣 {full_answer}", parse_mode='Markdown')
 
     except Exception as e:
@@ -154,7 +154,7 @@ def process_audio_group(message, file_id):
             new_file.write(file)
         u.convert_to_wav(ogg_path, wav_path)
         answer = AudioProcessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProcessor.emot_detection(wav_path)
+        audio_emotion = AudioProcessor.emo_detection(wav_path)
         emodzi = u.emodzi_dict_audio.get(audio_emotion)
         reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
         bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
@@ -181,13 +181,15 @@ def handle_voice(message):
 def handle_text(message):
     print(f"Получено сообщение из чата типа: {message.chat.type} | Текст: {message.text}")
     if message.chat.type == 'private':
-        emotion = TextProcessor.emot_detection(message.text)
-        answer =  u.define_emotion("none", emotion[0], "none")
+        emotion = TextProcessor.emo_detection(message.text)
+        answer =  u.define_emotion("none", emotion, "none")
+        #answer = u.define_emotion("none", emotion, "none")
         bot.send_message(message.chat.id, answer)
     else:
         if u.check_bot_state(message.chat.id):
-            emotion = TextProcessor.emot_detection(message.text)
-            emodzi = u.emodzi_dict.get(emotion[0])
+            emotion = TextProcessor.emo_detection(message.text)
+            emodzi = u.emodzi_dict.get(emotion)
+            #emodzi = u.emodzi_dict.get(emotion)
             reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
             bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
 
