@@ -151,3 +151,16 @@ def clean_text(text):
 
     # - лидирующие/замыкающие пробелы
     return text.strip()
+
+
+def mask_name(name):
+    if len(name) <= 4:
+        return name[0] + "**" + name[-1] if len(name) > 2 else name
+    return name[:2] + "**" + name[-2:]
+
+import time
+def timed_call(func, *args, **kwargs):
+    start = time.time()
+    result = func(*args, **kwargs)
+    duration = time.time() - start
+    return result, duration

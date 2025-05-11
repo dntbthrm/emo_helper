@@ -6,11 +6,17 @@ import librosa
 import numpy as np
 import pandas as pd
 import joblib
+import threading
+import requests
 
 from aniemore.recognizers.voice import VoiceRecognizer
 from aniemore.models import HuggingFaceModel
 from utils import dict_emo
 from models.audio_model.feature_extractor import extract_features
+
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+whisper_model = whisper.load_model("small", device=DEVICE)
+whisper_lock = threading.Lock()
 
 
 emotion_codes = {
@@ -23,6 +29,29 @@ emotion_codes = {
     7: "surprised"
 }
 
+def process_task(task, result_queue):
+    audio_path, uid = task
+
+    audio = AudioSegment.from_wav(audio_path)
+    if len(audio) < 1000:
+        result_queue.put((uid, "⚠ Ошибка: Аудио слишком короткое."))
+        return
+
+    chunks = [audio[i : i + 30 * 1000] for i in range(0, len(audio), 30 * 1000)]
+    full_text = ""
+    tmp_dir = "audio/tmp"
+
+    for i, chunk in enumerate(chunks):
+        chunk_path = os.path.join(tmp_dir, f"temp_chunk_{i}_{uid}.wav")
+        chunk.export(chunk_path, format="wav")
+
+        result = whisper_model.transcribe(chunk_path)
+        full_text += result["text"] + " "
+
+        os.remove(chunk_path)
+
+    result_queue.put((uid, full_text.strip()))
+
 class AudioProcessor:
     TMP_DIR = "audio/tmp"
 
@@ -33,29 +62,30 @@ class AudioProcessor:
 
     @staticmethod
     def transcription(audio_path, uid):
-        torch.cuda.empty_cache()
-        dev = "cuda" if torch.cuda.is_available() else "cpu"
-        model = whisper.load_model("small", device=dev)
+        url = "http://127.0.0.1:8000/transcribe/"
+        try:
+            with open(audio_path, "rb") as f:
+                files = {"file": f}
+                response = requests.post(url, files=files)
 
-        audio = AudioSegment.from_wav(audio_path)
-        if len(audio) < 1000:  # Если аудио < 1 сек, отбрасываем
-            return "⚠ Ошибка: Аудио слишком короткое."
+            response.raise_for_status()
 
-        # дробление аудио на куски по 30 с
-        chunks = [audio[i : i + 30 * 1000] for i in range(0, len(audio), 30 * 1000)]
-        full_text = ""
+            data = response.json()
 
-        for i, chunk in enumerate(chunks):
-            chunk_path = os.path.join(AudioProcessor.TMP_DIR, f"temp_chunk_{i}_{uid}.wav")
-            chunk.export(chunk_path, format="wav")
+            full_text = data.get("transcription", "").strip()
+            if not full_text:
+                raise ValueError("Получен пустой текст распознавания.")
 
-            result = model.transcribe(chunk_path)
-            full_text += result["text"] + " "
+            print("Распознанный текст:", full_text)
+            return full_text
+        except requests.exceptions.RequestException as e:
+            print("Ошибка при запросе к Whisper-серверу:", e)
 
-            os.remove(chunk_path)
+        except ValueError as ve:
+            print("Ошибка в содержимом ответа:", ve)
 
-        return full_text.strip()
-
+        except Exception as ex:
+            print("Неожиданная ошибка:", ex)
 
 
     @staticmethod

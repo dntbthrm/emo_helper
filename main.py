@@ -7,12 +7,32 @@ import uuid
 import threading
 import queue
 from concurrent.futures import ThreadPoolExecutor
+import logging
+import time
+import concurrent.futures
+import uvicorn
+from whisper_server import app
+
 import aiogram as aio
 # кастомные функции
 from audio.AudioProcessor import AudioProcessor
 from text.TextProcessor import TextProcessor
 import config
 import utils as u
+
+# логгирование
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(levelname)s:%(name)s:%(message)s',
+    handlers=[
+        logging.FileHandler("bot.log", encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
+def run_api():
+    uvicorn.run(app, host="127.0.0.1", port=8000)
 
 bot = telebot.TeleBot(config.tg_token)
 
@@ -106,9 +126,12 @@ def stop_analyze(message):
 
 
 #case_id 0 - private; 1 - group
-
 def process_audio(message, file_id):
+    start_time = time.time()
     try:
+        username = u.mask_name(message.from_user.first_name or "Unknown")
+        logger.info(f"->>> Начата обработка аудио: chat_id={message.chat.id}, user={username}")
+
         AudioProcessor.make_tmp_dir("audio/tmp")
 
         file_info = bot.get_file(file_id)
@@ -122,16 +145,39 @@ def process_audio(message, file_id):
 
         bot.send_message(message.chat.id, "🎙 Обрабатываю голосовое сообщение...")
 
+        # 1. Конвертация
+        convert_start = time.time()
         u.convert_to_wav(ogg_path, wav_path)
+        convert_duration = time.time() - convert_start
+        logger.info(f" --- Конвертация заняла {convert_duration:.2f} сек ---")
 
-        answer = AudioProcessor.transcription(wav_path, unique_id)
-        audio_emotion = AudioProcessor.emo_detection(wav_path)
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_transcribe = executor.submit(u.timed_call, AudioProcessor.transcription, wav_path, unique_id)
+            future_audio_emotion = executor.submit(u.timed_call, AudioProcessor.emo_detection, wav_path)
+
+            (answer, transcribe_duration) = future_transcribe.result()
+            (audio_emotion, audio_duration) = future_audio_emotion.result()
+
+        logger.info(f" --- Распознавание речи заняло {transcribe_duration:.2f} сек ---")
+        logger.info(f" --- Эмоция по аудио заняла {audio_duration:.2f} сек ---")
+
+        text_start = time.time()
         text_emotion = TextProcessor.emo_detection(answer)
+        text_duration = time.time() - text_start
+        logger.info(f" --- Эмоция по тексту заняла {text_duration:.2f} сек ---")
+
+        define_start = time.time()
         full_answer = u.define_emotion(audio_emotion, text_emotion, answer)
-        #full_answer = u.define_emotion(audio_emotion, text_emotion, answer)
+        define_duration = time.time() - define_start
+        logger.info(f" --- Объединение эмоций заняло {define_duration:.2f} сек ---")
+
         bot.send_message(message.chat.id, f"🗣 {full_answer}", parse_mode='Markdown')
 
+        total_duration = time.time() - start_time
+        logger.info(f"<<<- Аудио обработано за {total_duration:.2f} сек: chat_id={message.chat.id}, user={username}")
+
     except Exception as e:
+        logger.exception(f"!!!!!!!!!!!!! Ошибка при обработке аудио: {e}")
         bot.send_message(message.chat.id, f"⚠ Ошибка: {str(e)}")
 
     finally:
@@ -141,7 +187,10 @@ def process_audio(message, file_id):
 
 
 def process_audio_group(message, file_id):
+    start_time = time.time()
     try:
+        logging.info(f"->>> [GROUP] Начата обработка голосового. chat_id={message.chat.id}, message_id={message.message_id}")
+
         AudioProcessor.make_tmp_dir("audio/tmp")
 
         file_info = bot.get_file(file_id)
@@ -152,14 +201,20 @@ def process_audio_group(message, file_id):
         file = bot.download_file(file_info.file_path)
         with open(ogg_path, 'wb') as new_file:
             new_file.write(file)
+
         u.convert_to_wav(ogg_path, wav_path)
+
         answer = AudioProcessor.transcription(wav_path, unique_id)
         audio_emotion = AudioProcessor.emo_detection(wav_path)
         emodzi = u.emodzi_dict_audio.get(audio_emotion)
         reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
         bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
 
+        duration = time.time() - start_time
+        logging.info(f"<<<- [GROUP] Обработка завершена. chat_id={message.chat.id}, duration={duration:.2f} сек")
+
     except Exception as e:
+        logging.exception(f" !!!!! [GROUP] Ошибка обработки голосового. chat_id={message.chat.id}, error={e}")
         bot.send_message(message.chat.id, f"⚠ Ошибка: {str(e)}")
 
     finally:
@@ -179,19 +234,25 @@ def handle_voice(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    print(f"Получено сообщение из чата типа: {message.chat.type} | Текст: {message.text}")
-    if message.chat.type == 'private':
-        emotion = TextProcessor.emo_detection(message.text)
-        answer =  u.define_emotion("none", emotion, "none")
-        #answer = u.define_emotion("none", emotion, "none")
-        bot.send_message(message.chat.id, answer)
-    else:
-        if u.check_bot_state(message.chat.id):
+    start_time = time.time()
+    username = u.mask_name(message.from_user.first_name or "Unknown")
+    logger.info(f"->>> Получено текстовое сообщение: chat_id={message.chat.id}, user={username}, text={message.text}")
+    try:
+        if message.chat.type == 'private':
             emotion = TextProcessor.emo_detection(message.text)
-            emodzi = u.emodzi_dict.get(emotion)
-            #emodzi = u.emodzi_dict.get(emotion)
-            reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
-            bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+            answer = u.define_emotion("none", emotion, "none")
+            bot.send_message(message.chat.id, answer)
+        else:
+            if u.check_bot_state(message.chat.id):
+                emotion = TextProcessor.emo_detection(message.text)
+                emodzi = u.emodzi_dict.get(emotion)
+                reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
+                bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+        duration = time.time() - start_time
+        logger.info(f"<<<- Обработка текста завершена за {duration:.2f} сек")
+
+    except Exception as e:
+        logger.exception(f"!!! Ошибка при обработке текста: {e}")
 
 def worker():
     while True:
@@ -205,7 +266,21 @@ def worker():
         task_queue.task_done()
 
 
-# Запуск обработчика в отдельном потоке
-threading.Thread(target=worker, daemon=True).start()
+import asyncio
 
-bot.polling(none_stop=True, interval=0)
+def main():
+    api_thread = threading.Thread(target=run_api, daemon=True)
+    api_thread.start()
+
+    worker_thread = threading.Thread(target=worker, daemon=True)
+    worker_thread.start()
+
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+    bot.polling(none_stop=True)
+
+if __name__ == '__main__':
+    main()
