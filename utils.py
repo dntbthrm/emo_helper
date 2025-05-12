@@ -1,9 +1,21 @@
 import subprocess
 import requests
 def convert_to_wav(input_ogg, output_wav):
+    # sample rate
+    try:
+        probe_cmd = [
+            "ffprobe", "-v", "error", "-select_streams", "a:0",
+            "-show_entries", "stream=sample_rate",
+            "-of", "default=noprint_wrappers=1:nokey=1", input_ogg
+        ]
+        sample_rate = subprocess.check_output(probe_cmd).decode().strip()
+        print(f"Sample rate входного файла: {sample_rate} Hz")
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Ошибка при определении sample rate: {e.stderr.decode()}")
+
     command = [
         "ffmpeg", "-y", "-i", input_ogg,
-        "-acodec", "pcm_s16le", "-ac", "1", "-ar", "16000", output_wav
+        "-acodec", "pcm_s16le", "-ac", "1", "-ar", "22050", output_wav
     ]
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if result.returncode != 0:

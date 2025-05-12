@@ -9,9 +9,6 @@ import joblib
 import threading
 import requests
 
-from aniemore.recognizers.voice import VoiceRecognizer
-from aniemore.models import HuggingFaceModel
-from utils import dict_emo
 from models.audio_model.feature_extractor import extract_features
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -90,7 +87,7 @@ class AudioProcessor:
 
     @staticmethod
     def extract_features(audio_path):
-        y, sr = librosa.load(audio_path, sr=22050)
+        y, sr = librosa.load(audio_path)
         # акустические признаки
         mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
         chroma = librosa.feature.chroma_stft(y=y, sr=sr)
