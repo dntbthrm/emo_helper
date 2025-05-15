@@ -12,6 +12,7 @@ import time
 import concurrent.futures
 import uvicorn
 from whisper_server import app
+import csv
 
 import aiogram as aio
 # кастомные функции
@@ -64,7 +65,7 @@ def private_buttons():
 
     return markup
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: call.data in ["start", "help", "start_analyze", "stop_analyze"])
 def handle_query(call):
     #user = call.message.from_user
     if call.data == "start":
@@ -124,6 +125,92 @@ def stop_analyze(message):
             u.bot_deactivate(chat_id)
             bot.send_message(message.chat.id, "Распознавание эмоций отключено")
 
+# функции сбора отзывов !!!ТОЛЬКО ДЛЯ ТЕСТОВ!!!
+# НЕ ВХОДИТ В ОСНОВНОЙ ФУНКЦИОНАЛ
+user_feedback_state = {}
+
+@bot.callback_query_handler(func=lambda call: call.data in ['comment_yes', 'comment_no'])
+def handle_comment_choice(call):
+    user_id = call.from_user.id
+
+    if user_id not in user_feedback_state:
+        return
+
+    # Удаляем кнопки из сообщения
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+                                   message_id=call.message.message_id,
+                                   reply_markup=None)
+
+    if call.data == 'comment_yes':
+        user_feedback_state[user_id]['step'] = 'awaiting_comment_text'
+        print("choice yes")
+        bot.answer_callback_query(call.id, text="Да")
+        bot.send_message(call.message.chat.id, "Отправьте комментарий сообщением (только текст принимается).")
+
+    elif call.data == 'comment_no':
+        print("choice no")
+        user_feedback_state[user_id]['comment'] = "none"
+        save_feedback(call.from_user, user_feedback_state[user_id]['rate'], "none")
+        bot.answer_callback_query(call.id, text="Нет")
+        bot.send_message(call.message.chat.id, "Спасибо, Ваше мнение записано.")
+        del user_feedback_state[user_id]
+
+@bot.message_handler(commands=['report'])
+def start_feedback(message):
+    user_id = message.from_user.id
+    user_feedback_state[user_id] = {'step': 'awaiting_rating'}
+    bot.send_message(message.chat.id, "Оцените Бота по шкале от 1 до 5")
+
+#@bot.message_handler(content_types=['text'])
+def handle_feedback(message):
+    user_id = message.from_user.id
+
+    if user_id not in user_feedback_state:
+        return
+
+    state = user_feedback_state[user_id]
+
+    if state['step'] == 'awaiting_rating':
+        if message.text.isdigit() and 1 <= int(message.text) <= 5:
+            state['rate'] = int(message.text)
+            state['step'] = 'awaiting_comment_choice'
+            markup = types.InlineKeyboardMarkup()
+            markup.add(types.InlineKeyboardButton("Да", callback_data='comment_yes'))
+            markup.add(types.InlineKeyboardButton("Нет", callback_data='comment_no'))
+            bot.send_message(message.chat.id, "Есть ли у Вас комментарий?", reply_markup=markup)
+        else:
+            bot.send_message(message.chat.id, "Пожалуйста, отправьте корректную оценку (число от 1 до 5).")
+
+    elif state['step'] == 'awaiting_comment_text':
+        if message.text:
+            comment = message.text.strip()
+            save_feedback(message.from_user, state['rate'], comment)
+            bot.send_message(message.chat.id, "Спасибо, Ваше мнение записано.")
+            del user_feedback_state[user_id]
+        else:
+            bot.send_message(message.chat.id, "Пожалуйста, отправьте текстовый комментарий.")
+
+
+def get_comment():
+    if message.text:
+        state['comment'] = message.text.strip()
+        save_feedback(message.from_user, state['rate'], state['comment'])
+        bot.send_message(message.chat.id, "Спасибо, Ваше мнение записано.")
+        del user_feedback_state[user_id]
+    else:
+        bot.send_message(message.chat.id, "Пожалуйста, отправьте текстовый комментарий.")
+
+def save_feedback(user, rate, comment):
+    name = user.first_name
+    masked_username = (name[:2] + "***")
+    file_exists = os.path.exists("report_table.csv")
+    with open("report_table.csv", mode='a', encoding='utf-8', newline='') as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(["username", "rate", "comment"])
+        writer.writerow([masked_username, rate, comment])
+
+# функционал бота
 
 #case_id 0 - private; 1 - group
 def process_audio(message, file_id):
@@ -145,7 +232,7 @@ def process_audio(message, file_id):
 
         bot.send_message(message.chat.id, "🎙 Обрабатываю голосовое сообщение...")
 
-        # 1. Конвертация
+        # конвертация в wav
         convert_start = time.time()
         u.convert_to_wav(ogg_path, wav_path)
         convert_duration = time.time() - convert_start
@@ -234,25 +321,31 @@ def handle_voice(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    start_time = time.time()
-    username = u.mask_name(message.from_user.first_name or "Unknown")
-    logger.info(f"->>> Получено текстовое сообщение: chat_id={message.chat.id}, user={username}, text={message.text}")
-    try:
-        if message.chat.type == 'private':
-            emotion = TextProcessor.emo_detection(message.text)
-            answer = u.define_emotion("none", emotion, "none")
-            bot.send_message(message.chat.id, answer)
-        else:
-            if u.check_bot_state(message.chat.id):
+    user_id = message.from_user.id
+    if user_id in user_feedback_state:
+        state = user_feedback_state[user_id]
+        if state['step'] == 'awaiting_comment_text' or state['step'] == 'awaiting_rating':
+            handle_feedback(message)
+    else:
+        start_time = time.time()
+        username = u.mask_name(message.from_user.first_name or "Unknown")
+        logger.info(f"->>> Получено текстовое сообщение: chat_id={message.chat.id}, user={username}, text={message.text}")
+        try:
+            if message.chat.type == 'private':
                 emotion = TextProcessor.emo_detection(message.text)
-                emodzi = u.emodzi_dict.get(emotion)
-                reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
-                bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
-        duration = time.time() - start_time
-        logger.info(f"<<<- Обработка текста завершена за {duration:.2f} сек")
+                answer = u.define_emotion("none", emotion, "none")
+                bot.send_message(message.chat.id, answer)
+            else:
+                if u.check_bot_state(message.chat.id):
+                    emotion = TextProcessor.emo_detection(message.text)
+                    emodzi = u.emodzi_dict.get(emotion)
+                    reaction = [types.ReactionTypeEmoji(emoji=emodzi)]
+                    bot.set_message_reaction(message.chat.id, message.message_id, reaction=reaction)
+            duration = time.time() - start_time
+            logger.info(f"<<<- Обработка текста завершена за {duration:.2f} сек")
 
-    except Exception as e:
-        logger.exception(f"!!! Ошибка при обработке текста: {e}")
+        except Exception as e:
+            logger.exception(f"!!! Ошибка при обработке текста: {e}")
 
 def worker():
     while True:
