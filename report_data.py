@@ -14,11 +14,17 @@ colors = {
 }
 rating_colors = [colors.get(rating, '#CCCCCC') for rating in rating_counts.index]
 
+def make_autopct(values):
+    def my_autopct(pct):
+        count = int(round(pct * df.shape[0] / 100.0))
+        return f'{pct:.1f}%\n({count})'
+    return my_autopct
+
 fig, ax = plt.subplots(figsize=(10, 6))
 wedges, texts, autotexts = ax.pie(
     rating_counts,
     labels=rating_counts.index,
-    autopct='%1.1f%%',
+    autopct=make_autopct(rating_counts),
     colors=rating_colors,
     startangle=140,
     textprops=dict(color="black", fontsize=12)
