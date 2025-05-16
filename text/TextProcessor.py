@@ -20,7 +20,7 @@ class TextProcessor:
     @classmethod
     def load_model(cls):
         if cls.model is None or cls.tokenizer is None:
-            model_dir = "models/text_model_v2/emotion_bert_model"
+            model_dir = "models/text_model/emotion_bert_best"
             # CPU или CUDA, ничего больше
             cls.model = BertForSequenceClassification.from_pretrained(model_dir).to(cls.device)
             cls.tokenizer = BertTokenizer.from_pretrained(model_dir)
