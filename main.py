@@ -150,16 +150,58 @@ def handle_comment_choice(call):
     elif call.data == 'comment_no':
         print("choice no")
         user_feedback_state[user_id]['comment'] = "none"
-        save_feedback(call.from_user, user_feedback_state[user_id]['rate'], "none")
+        save_feedback(call.from_user, user_feedback_state[user_id]['rate'], "none", user_feedback_state[user_id]['like'])
         bot.answer_callback_query(call.id, text="Нет")
+
         bot.send_message(call.message.chat.id, "Спасибо, Ваше мнение записано.")
         del user_feedback_state[user_id]
+
+@bot.callback_query_handler(func=lambda call: call.data in ['is_useful', 'not_useful', 'i_dont_know'])
+def handle_using(call):
+    user_id = call.from_user.id
+
+    if user_id not in user_feedback_state:
+        return
+
+    # Удаляем кнопки из сообщения
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  reply_markup=None)
+
+    if call.data == 'is_useful':
+        user_feedback_state[user_id]['like'] = 'yes'
+        print("is_useful")
+        bot.answer_callback_query(call.id, text="Да")
+        user_feedback_state[user_id]['step'] = 'awaiting_comment_choice'
+        get_comm_buttons(user_id, call.message.chat.id)
+
+    elif call.data == 'not_useful':
+        print("not useful")
+        user_feedback_state[user_id]['like'] = "no"
+        bot.answer_callback_query(call.id, text="Нет")
+        user_feedback_state[user_id]['step'] = 'awaiting_comment_choice'
+        get_comm_buttons(user_id, call.message.chat.id)
+    elif call.data == 'i_dont_know':
+        print("dont know ")
+        user_feedback_state[user_id]['like'] = "non_def"
+        bot.answer_callback_query(call.id, text="Не могу сказать")
+        user_feedback_state[user_id]['step'] = 'awaiting_comment_choice'
+        get_comm_buttons(user_id, call.message.chat.id)
+
 
 @bot.message_handler(commands=['report'])
 def start_feedback(message):
     user_id = message.from_user.id
     user_feedback_state[user_id] = {'step': 'awaiting_rating'}
     bot.send_message(message.chat.id, "Оцените Бота по шкале от 1 до 5")
+
+def get_comm_buttons(user_id, chat_id):
+    print(user_id)
+    if user_feedback_state[user_id]['step'] == 'awaiting_comment_choice':
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton("Да", callback_data='comment_yes'))
+        markup.add(types.InlineKeyboardButton("Нет", callback_data='comment_no'))
+        bot.send_message(chat_id, "Есть ли у Вас комментарий?", reply_markup=markup)
 
 #@bot.message_handler(content_types=['text'])
 def handle_feedback(message):
@@ -173,18 +215,23 @@ def handle_feedback(message):
     if state['step'] == 'awaiting_rating':
         if message.text.isdigit() and 1 <= int(message.text) <= 5:
             state['rate'] = int(message.text)
-            state['step'] = 'awaiting_comment_choice'
+            #state['step'] = 'awaiting_comment_choice'
             markup = types.InlineKeyboardMarkup()
-            markup.add(types.InlineKeyboardButton("Да", callback_data='comment_yes'))
-            markup.add(types.InlineKeyboardButton("Нет", callback_data='comment_no'))
-            bot.send_message(message.chat.id, "Есть ли у Вас комментарий?", reply_markup=markup)
+            #markup.add(types.InlineKeyboardButton("Да", callback_data='comment_yes'))
+            #markup.add(types.InlineKeyboardButton("Нет", callback_data='comment_no'))
+            markup.add(types.InlineKeyboardButton("Да", callback_data='is_useful'))
+            markup.add(types.InlineKeyboardButton("Нет", callback_data='not_useful'))
+            markup.add(types.InlineKeyboardButton("Не могу сказать", callback_data='i_dont_know'))
+            state['step'] = 'awaiting_like'
+            bot.send_message(message.chat.id, "Определять эмоции стало удобнее?", reply_markup=markup)
+            #bot.send_message(message.chat.id, "Есть ли у Вас комментарий?", reply_markup=markup)
         else:
             bot.send_message(message.chat.id, "Пожалуйста, отправьте корректную оценку (число от 1 до 5).")
 
     elif state['step'] == 'awaiting_comment_text':
         if message.text:
             comment = message.text.strip()
-            save_feedback(message.from_user, state['rate'], comment)
+            save_feedback(message.from_user, state['rate'], comment, state['like'])
             bot.send_message(message.chat.id, "Спасибо, Ваше мнение записано.")
             del user_feedback_state[user_id]
         else:
@@ -200,15 +247,15 @@ def get_comment():
     else:
         bot.send_message(message.chat.id, "Пожалуйста, отправьте текстовый комментарий.")
 
-def save_feedback(user, rate, comment):
+def save_feedback(user, rate, comment, usefulness):
     name = user.first_name
     masked_username = (name[:2] + "***")
-    file_exists = os.path.exists("report_table.csv")
-    with open("report_table.csv", mode='a', encoding='utf-8', newline='') as f:
+    file_exists = os.path.exists("rate_table.csv")
+    with open("rate_table.csv", mode='a', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         if not file_exists:
-            writer.writerow(["username", "rate", "comment"])
-        writer.writerow([masked_username, rate, comment])
+            writer.writerow(["username", "rate", "comment", "like"])
+        writer.writerow([masked_username, rate, comment, usefulness])
 
 # функционал бота
 

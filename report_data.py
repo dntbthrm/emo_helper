@@ -1,9 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("report_table.csv")
+df = pd.read_csv("rate_table.csv")
 
 rating_counts = df['rate'].value_counts().sort_index()
+use_columns = df['like'].value_counts().sort_index()
 
 colors = {
     1: '#FF9999',
@@ -12,8 +13,14 @@ colors = {
     4: '#99CCFF',
     5: '#99FF99'
 }
-rating_colors = [colors.get(rating, '#CCCCCC') for rating in rating_counts.index]
 
+colors1 = {
+    'non_def': '#9AE9F5',
+    'no': '#F2634E',
+    'yes': '#F27E84'
+}
+rating_colors = [colors.get(rating, '#CCCCCC') for rating in rating_counts.index]
+use_colors = [colors1.get(like, '#CCCCCC') for like in use_columns.index]
 def make_autopct(values):
     def my_autopct(pct):
         count = int(round(pct * df.shape[0] / 100.0))
@@ -41,4 +48,17 @@ if not comments.empty:
 
 plt.tight_layout()
 plt.savefig("user_rating_piechart.png", bbox_inches='tight')
+
+fig, ax = plt.subplots(figsize=(10, 6))
+wedges, texts, autotexts = ax.pie(
+    use_columns,
+    labels=use_columns.index,
+    autopct=make_autopct(use_columns),
+    colors=use_colors,
+    startangle=140,
+    textprops=dict(color="black", fontsize=12)
+)
+ax.axis('equal')
+plt.tight_layout()
+plt.savefig("user_likes_piechart.png", bbox_inches='tight')
 
