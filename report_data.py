@@ -48,11 +48,17 @@ if not comments.empty:
 
 plt.tight_layout()
 plt.savefig("user_rating_piechart.png", bbox_inches='tight')
+label_map = {
+    "yes": "Да",
+    "no": "Нет",
+    "non_def": "Не могу сказать"
+}
+labels = [label_map.get(label, label) for label in use_columns.index]
 
 fig, ax = plt.subplots(figsize=(10, 6))
 wedges, texts, autotexts = ax.pie(
     use_columns,
-    labels=use_columns.index,
+    labels=labels,
     autopct=make_autopct(use_columns),
     colors=use_colors,
     startangle=140,
