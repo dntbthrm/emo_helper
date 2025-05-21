@@ -65,6 +65,7 @@ wedges, texts, autotexts = ax.pie(
     textprops=dict(color="black", fontsize=12)
 )
 ax.axis('equal')
+plt.title(f"Опрос: Стало ли удобнее\nопределять эмоции в переписке?", fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig("user_likes_piechart.png", bbox_inches='tight')
 
